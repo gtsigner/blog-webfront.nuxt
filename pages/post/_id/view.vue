@@ -1,0 +1,90 @@
+<template>
+  <div class="post-page">
+    <div class="container">
+      <div class="post-content">
+        <div class="post-header">
+          <h3 class="title">{{post.title}}</h3>
+        </div>
+        <div class="content-wrapper">
+          <vue-markdown
+            class="markdown-body"
+            :source="post.content" :show="show" :html="html" :breaks="breaks" :linkify="linkify"
+            :emoji="emoji" :typographer="typographer" :toc="toc" toc-id="toc">
+          </vue-markdown>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import {Http, Codes} from '../../../plugins/utils/api'
+  import VueMarkdown from 'vue-markdown'
+
+  export default {
+    head() {
+      return {
+        title: this.post.title,
+        link: [
+          {rel: 'stylesheet', href: '//cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css'}
+        ],
+      }
+    },
+    name: "Post",
+    components: {
+      VueMarkdown
+    },
+    data() {
+      return {
+        show: true,
+        html: true,
+        breaks: true,
+        linkify: true,
+        emoji: true,
+        typographer: true,
+        toc: false
+      }
+    },
+    computed: {
+      postId() {
+        return this.$route.params.id;
+      }
+    },
+    created() {
+      console.log(this.post);
+    },
+    /*服务端渲染*/
+    async asyncData({params, redirect}) {
+      let post = await Http.get(`post/${params.id}/show`);
+      if (post.code === Codes.FAIL) {
+        //如果未找到文章
+        return redirect('/404');
+      }
+      return {post: post};
+    },
+    methods: {
+      async loadPost() {
+
+      }
+    }
+  }
+</script>
+
+<style scoped lang="scss">
+  .post-page {
+    margin-top: 1rem;
+    .post-content {
+      background: #fff;
+      padding: 1rem;
+    }
+    .post-header {
+      .title {
+        padding: 1rem 1rem 1rem;
+        border-bottom: 1px solid $grey-300;
+      }
+    }
+    .content-wrapper {
+      padding: 2rem .5rem;
+    }
+  }
+</style>
