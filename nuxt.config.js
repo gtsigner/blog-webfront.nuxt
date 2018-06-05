@@ -99,7 +99,7 @@ module.exports = {
       //new BundleAnalyzerPlugin()
     ],
     vendor: ['axios', 'lodash', 'vue-markdown'],
-    maxChunkSize: 300000 // value in octet
+    maxChunkSize: 30000, // value in octet
     //maxChunkSize: 200000 // value in octet
     optimization: {
       splitChunks: {
