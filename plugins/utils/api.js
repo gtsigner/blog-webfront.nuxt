@@ -1,10 +1,11 @@
 import axios from 'axios'
 import Auth from './auth';
 import queryString from 'querystring'
+import Cfs from '../../config'
 
 let accessToken = '';
 const configs = {
-  uri: process.env.API_URL
+  uri: Cfs.API_URL
 };
 
 const instance = axios.create({

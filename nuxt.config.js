@@ -1,5 +1,4 @@
 //import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer'
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
   transition: 'fade',
   router: {
@@ -26,8 +25,8 @@ module.exports = {
       //{rel: 'stylesheet', href: '//cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css'},
     ],
     script: [
-      {type: 'text/javascript', src: '//cdn.bootcss.com/axios/0.18.0/axios.min.js'},
-      {type: 'text/javascript', src: '//cdn.bootcss.com/lodash.js/4.17.10/lodash.min.js'},
+      {src: '//cdn.bootcss.com/lodash.js/4.17.10/lodash.min.js'},
+      {src: '//cdn.bootcss.com/axios/0.18.0/axios.min.js'},
     ]
   },
   /*
@@ -82,10 +81,12 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-      config.externals = {
-        'axios': 'axios',
-        'lodash': 'lodash',
-      };
+      if (!isClient) {
+        config.externals = {
+          'axios': 'axios',
+          'loadsh': '_',
+        };
+      }
     },
     plugins: [
       // new SkeletonWebpackPlugin({
@@ -97,14 +98,28 @@ module.exports = {
       // })
       //new BundleAnalyzerPlugin()
     ],
-    vendor: ['axios', 'lodash', 'vue-markdown']
+    vendor: ['axios', 'lodash', 'vue-markdown'],
+    maxChunkSize: 300000 // value in octet
+    //maxChunkSize: 200000 // value in octet
+    optimization: {
+      splitChunks: {
+        chunks: 'async',
+      }
+    },
+    splitChunks: {
+      pages: false,
+      vendor: true,
+      commons: false,
+      runtime: false,
+      layouts: false
+    },
+  },
+  analyze: false,
+  babel: {
+    plugins: ['transform-decorators-legacy', 'transform-class-properties']
   },
   dev: (process.env.NODE_ENV !== 'production'),
-  env: {
-    WS_URL: 'https://team.oeynet.com',
-    API_URL: 'http://team.oeynet.com/api/v1',
-    API_URL_HTTPS: 'https://team.oeynet.com/api/v1',
-  },
+  env: {},
   cache: {
     max: 1000,
     maxAge: 900000

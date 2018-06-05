@@ -106,7 +106,6 @@
         $state.loaded();
         let itemCount = posts.length;
         if (itemCount !== this.page.limit) {
-          console.log("加载所有数据完毕");
           $state.complete();
         }
         this.posts = this.posts.concat(posts);

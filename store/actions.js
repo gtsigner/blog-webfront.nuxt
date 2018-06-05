@@ -17,7 +17,6 @@ export default {
 
   async loadMyProfile({commit}) {
     let res = await Http.get('my/profile');
-    console.log("Rs", res);
     if (res.code === Codes.SUCCESS) {
       const user = res.data;
       commit(types.UPDATE_USER, user);

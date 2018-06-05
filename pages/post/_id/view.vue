@@ -51,7 +51,6 @@
       }
     },
     created() {
-      console.log(this.post);
     },
     /*服务端渲染*/
     async asyncData({params, redirect}) {
