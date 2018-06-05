@@ -55,3 +55,12 @@ ApiPlugin.install = (Vue, options) => {
   };
 };
 export const Api = ApiPlugin;
+
+//上传文件
+export const Axios = axios;
+export const Upload = axios.create({
+  baseURL: configs.uri,
+  timeout: 1500,
+  headers: {'Content-Type': 'multipart/form-data'},
+  withCredentials: true
+});

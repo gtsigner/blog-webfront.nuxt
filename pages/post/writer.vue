@@ -33,11 +33,16 @@
           class="input-title">
       </div>
       <textarea
+        placeholder="请输入文档摘要"
+        v-model="post.desc"
+        name=""
+        class="input-content input-zy content-wrapper thin-scroll"></textarea>
+      <textarea
         placeholder="请输入文章内容"
+        v-paste-img="pasteImg"
         v-model="post.content"
         name=""
-        class="input-content content-wrapper thin-scroll"
-        id="" cols="30" rows="100"></textarea>
+        class="input-content content-wrapper thin-scroll"></textarea>
       <div class="tags-wrapper">
         <div class="tag-list">
           <div class="el-tag mr-2" v-for="(t,i) in post.tags" :key="i">
@@ -72,6 +77,9 @@
     <div v-if="editor.show"
          class="review-wrapper thin-scroll">
       <h3 class="title">{{post.title}}</h3>
+      <div>
+        <span class="desc">{{post.desc}}</span>
+      </div>
       <vue-markdown
         class="markdown-body"
         :source="post.content"
@@ -90,6 +98,12 @@
   import VueMarkdown from 'vue-markdown'
   import _ from 'lodash';
 
+  /**
+   * 咱贴上传图片
+   */
+  // $("#post_content").on('paste', function (ev) {
+  //
+  // });
   export default {
     name: "create",
     components: {
@@ -111,7 +125,9 @@
         post: {
           _id: '',
           title: '',
+          desc: '',//摘要
           content: '',
+          pics: [],
           tags: ['Android开发', 'Jenkins'],
           version: '0.0.1',
         },
@@ -121,7 +137,7 @@
         },
         editor: {
           show: true,
-          html: true,
+          html: false,
           breaks: true,
           linkify: true,
           emoji: true,
@@ -130,15 +146,40 @@
         }
       }
     },
+    watch: {
+      'post.content'(n) {
+        //this.post.content=xxs
+      }
+    },
     methods: {
+      //粘贴成功后绑定一个事件
+      async pasteImg(res) {
+        if (res.status === 200 && res.data) {
+          const data = res.data;
+          if (data.code !== Codes.SUCCESS) return false;
+          //然后注入到内容里面
+          this.post.content += `\n![${data.data.file.filename}](${data.data.url})`;
+        }
+      },
       async save() {
 
       },
       /*发布草稿*/
       async publish() {
+        //字段验证
+        if (this.post.tags.length === 0) {
+          this.$message.error('请添加至少1个标签');
+          return false;
+        }
+        if (this.post.content.length <= 50) {
+          this.$message.error('请再写点内容吧');
+          return false;
+        }
         this.publishing = true;
+        //解析内容中的图片数组
+        let pics = this.post.content.match(/\!\[.+\]\(.+\)/g);
+        //交给后台解析吧
         let res = await Http.put(`post/${this.post._id}/publish`, this.post);
-
         this.publishing = false;
       },
       async remove() {
@@ -324,6 +365,9 @@
       border: none;
       border-bottom: 1px solid $grey-200;
       resize: none;
+      &.input-zy {
+        height: 120px;
+      }
     }
     .footer-wrapper {
       border-top: 1px solid $grey-200;
@@ -381,6 +425,15 @@
     .title {
       line-height: 50px;
       border-bottom: 1px solid $grey-200;
+    }
+    .desc {
+      font-size: 13px;
+      color: $grey-500;
+      margin: 1rem;
+      white-space: pre-wrap;
+    }
+    .markdown-body {
+      font-size: 16px;
     }
   }
 </style>

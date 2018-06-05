@@ -22,7 +22,7 @@
             <div class="nav-link cursor-pointer avatar-box">
               <el-dropdown trigger="click">
                 <div class="el-dropdown-link avatar-link">
-                  <img src="/images/pubg.jpg" class="avatar" alt="">
+                  <img :src="user.avatar" class="avatar" alt="">
                 </div>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item><i class="el-icon-printer"> </i> 我的主页</el-dropdown-item>

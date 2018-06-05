@@ -1,3 +1,5 @@
+//import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer'
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 module.exports = {
   transition: 'fade',
   router: {
@@ -5,7 +7,7 @@ module.exports = {
   },
   css: [
     {src: '~assets/scss/app.scss', lang: 'scss'}, // 指定 scss 而非 sass
-    {src: 'element-ui/lib/theme-chalk/index.css', lang: 'css'}, //ele样式
+    // {src: 'element-ui/lib/theme-chalk/index.css', lang: 'css'}, //ele样式
   ],
   /*
   ** Headers of the page
@@ -20,10 +22,13 @@ module.exports = {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
-      //  {rel: 'stylesheet', href: '//unpkg.com/element-ui/lib/theme-chalk/index.css'},
+      {rel: 'stylesheet', href: '//unpkg.com/element-ui/lib/theme-chalk/index.css'},
       //{rel: 'stylesheet', href: '//cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css'},
     ],
-    script: []
+    script: [
+      {type: 'text/javascript', src: '//cdn.bootcss.com/axios/0.18.0/axios.min.js'},
+      {type: 'text/javascript', src: '//cdn.bootcss.com/lodash.js/4.17.10/lodash.min.js'},
+    ]
   },
   /*
   ** Customize the progress bar color
@@ -50,7 +55,7 @@ module.exports = {
     /*
     ** Run ESLint on save
     */
-    extend(config, {isDev, isClient}) {
+    extend(config, {isDev, isClient, isServer}) {
       const sassResourcesLoader = {
         loader: 'sass-resources-loader',
         options: {
@@ -77,18 +82,22 @@ module.exports = {
           exclude: /(node_modules)/
         })
       }
-      config.externals = {};
+      config.externals = {
+        'axios': 'axios',
+        'lodash': 'lodash',
+      };
     },
-    // plugins: [
-    //   // new SkeletonWebpackPlugin({
-    //   //   webpackConfig: {
-    //   //     entry: {
-    //   //       app: resolve('./src/entry-skeleton.js')
-    //   //     }
-    //   //   }
-    //   // })
-    // ],
-    vendor: ['axios']
+    plugins: [
+      // new SkeletonWebpackPlugin({
+      //   webpackConfig: {
+      //     entry: {
+      //       app: resolve('./src/entry-skeleton.js')
+      //     }
+      //   }
+      // })
+      //new BundleAnalyzerPlugin()
+    ],
+    vendor: ['axios', 'lodash', 'vue-markdown']
   },
   dev: (process.env.NODE_ENV !== 'production'),
   env: {
@@ -96,8 +105,8 @@ module.exports = {
     API_URL: 'http://team.oeynet.com/api/v1',
     API_URL_HTTPS: 'https://team.oeynet.com/api/v1',
   },
-  // cache: {
-  //   // max: 1000,
-  //   // maxAge: 900000
-  // }
+  cache: {
+    max: 1000,
+    maxAge: 900000
+  }
 };

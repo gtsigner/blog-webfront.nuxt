@@ -7009,7 +7009,7 @@ watchpack@^1.4.0:
     graceful-fs "^4.1.2"
     neo-async "^2.5.0"
 
-webpack-bundle-analyzer@^2.10.0:
+webpack-bundle-analyzer@^2.10.0, webpack-bundle-analyzer@^2.13.1:
   version "2.13.1"
   resolved "http://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-2.13.1.tgz#07d2176c6e86c3cdce4c23e56fae2a7b6b4ad526"
   dependencies:
