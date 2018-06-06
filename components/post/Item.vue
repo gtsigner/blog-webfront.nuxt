@@ -15,14 +15,14 @@
             </div>
           </div>
           <div class="right-action">
-            <span class="star" @click="star"><i class="el-icon-star-off"></i><small>Star</small></span>
+            <!--<span class="star" @click="star"><i class="el-icon-star-off"></i><small>Star</small></span>-->
           </div>
         </div>
         <div class="line-title">
           <span class="title">{{post.title}}</span>
         </div>
         <div class="line-desc">
-          {{post.desc}}
+          <p>{{post.desc}}</p>
         </div>
       </div>
       <div class="img-wrapper">
@@ -66,6 +66,7 @@
       .avatar {
         height: 30px;
         width: 30px;
+        border-radius: 50%;
       }
       line-height: 30px;
       * {
@@ -102,6 +103,18 @@
     .line-desc {
       height: 30px;
       display: flex;
+      width: 100%;
+      overflow: hidden;
+      p {
+        white-space: pre-wrap;
+        width: 100%;
+        overflow: hidden;
+        line-height: 1.6;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        word-break: break-all;
+      }
     }
   }
 </style>

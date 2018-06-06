@@ -33,7 +33,7 @@
           </div>
         </div>
       </div>
-      <div class="card navigation">
+      <div style="display: none" class="card navigation">
         <div class="nav-widget">
 
         </div>

@@ -9,8 +9,7 @@ const configs = {
 };
 
 const instance = axios.create({
-  //baseURL: configs.uri,
-  baseURL: '/api/v1',
+  baseURL: configs.uri,
   timeout: 1500,
   headers: {},
   withCredentials: true

@@ -18,7 +18,9 @@ const store = () => {
       authenticated: false,
       //token
       accessToken: null,
-      user: {username: '', nickname: '', avatar: ''},
+      user: {
+        username: '', nickname: '', avatar: ''
+      },
       currentGame: {},//当前游戏
       position: {
         latitude: '', // 当前位置纬度

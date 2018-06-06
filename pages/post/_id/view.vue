@@ -2,8 +2,22 @@
   <div class="post-page">
     <div class="container">
       <div class="post-content">
-        <div class="post-header">
-          <h3 class="title">{{post.title}}</h3>
+        <div class="post-header d-flex justify-content-between">
+          <div class="title-wrapper">
+            <h3 class="title">{{post.title}}</h3>
+          </div>
+          <div class="action-menu d-flex">
+            <div class="common-list">
+              <span @click="collect" class="cursor-pointer color-primary mr-3">
+                <i class="el-icon-star-off"></i> 收藏
+              </span>
+            </div>
+            <div class="self-list" v-if="post._creatorId===user._id">
+              <nuxt-link :to="`/post/${post._id}/edit`">
+                <i class="el-icon-edit"></i> 编辑
+              </nuxt-link>
+            </div>
+          </div>
         </div>
         <div class="content-wrapper">
           <vue-markdown
@@ -46,6 +60,9 @@
       }
     },
     computed: {
+      user() {
+        return this.$store.state.user;
+      },
       postId() {
         return this.$route.params.id;
       }
@@ -64,6 +81,10 @@
     methods: {
       async loadPost() {
 
+      },
+      async collect() {
+
+
       }
     }
   }
@@ -71,15 +92,17 @@
 
 <style scoped lang="scss">
   .post-page {
-    margin-top: 1rem;
+    margin: 1rem;
     .post-content {
       background: #fff;
       padding: 1rem;
     }
     .post-header {
+      border-bottom: 1px solid $grey-300;
+      padding: 1rem 1rem 1rem;
+      line-height: 40px;
       .title {
-        padding: 1rem 1rem 1rem;
-        border-bottom: 1px solid $grey-300;
+        line-height: 40px;
       }
     }
     .content-wrapper {

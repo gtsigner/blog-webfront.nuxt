@@ -61,21 +61,22 @@
 <style scoped lang="scss">
   .user-wrapper {
     background: #fff;
-    margin-top: 1rem;
+    margin: 1rem;
     min-height: 700px;
     padding: 1rem;
     display: flex;
     flex-direction: row;
     height: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     .user-item {
       cursor: pointer;
       text-align: center;
       width: 240px;
       padding: .5rem 1rem;
-      margin-bottom: .8rem;
       border: 1px solid $grey-200;
       height: 280px;
-      margin-right: .8rem;
+      margin: 0 .5rem .5rem;
       transition: .288s all;
       &:hover {
         box-shadow: 2px 2px 1px $grey-200;

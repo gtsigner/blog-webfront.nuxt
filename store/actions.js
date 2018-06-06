@@ -23,6 +23,7 @@ export default {
       commit(types.UPDATE_AUTH, true);
     }
   },
+
   async login({commit}, user) {
     let res = await Http.post(`portal/login`, user);
     if (res.code === Codes.SUCCESS) {

@@ -11,6 +11,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <el-input
+          type="password"
           placeholder="请输入密码"
           class="auth-input"
           size="large"
@@ -53,8 +54,8 @@
         loginType: 0,
         isChecking: false,
         user: {
-          username: '17311301741',
-          password: 'zhaojun'
+          username: '',
+          password: ''
         },
         rules: {
           username: [

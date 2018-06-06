@@ -26,6 +26,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <el-input
+          type="password"
           placeholder="请输入密码"
           class="auth-input"
           size="large"
@@ -34,6 +35,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <el-input
+          type="password"
           placeholder="请重复输入密码"
           class="auth-input"
           size="large"

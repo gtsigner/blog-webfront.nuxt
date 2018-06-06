@@ -1,7 +1,7 @@
 <template>
   <div class="post-create">
     <div class="draft-wrapper thin-scroll">
-      <p class="title">草稿箱 <i class="el-icon-tickets"></i></p>
+      <p class="title">创作夹 <i class="el-icon-tickets"></i></p>
       <div class="draft-list list-group">
         <loading v-if="draftLoading"></loading>
         <div v-if="drafts.length===0" class="none-wrapper text-center">
@@ -15,7 +15,13 @@
           v-for="dt in drafts"
           :key="dt._id">
           <span class="d-title">{{dt.title}}</span>
-          <p class="create-date">创建时间：{{ dt.createAt | formatDate }}</p>
+          <p class="create-date">创建时间：{{ dt.createAt | formatDate }}
+            <el-badge :class="{
+            'color-success':dt.published,
+            'color-warn':!dt.published,
+            }">{{dt.published===true?'已发布':'未发布'}}
+            </el-badge>
+          </p>
         </div>
       </div>
       <div class="text-center mt-2 p-2">
@@ -25,12 +31,20 @@
       </div>
     </div>
     <div class="editor-wrapper">
-      <div class="row-1">
-        <input
-          v-model="post.title"
-          placeholder="请输入文章标题"
-          type="text"
-          class="input-title">
+      <div class="row-input d-flex justify-content-between">
+        <div class="input-wrapper">
+          <input
+            v-model="post.title"
+            placeholder="请输入文章标题"
+            type="text"
+            class="input-title">
+        </div>
+        <div class="menu-wrapper">
+          <span class="cursor-pointer"
+                :class="{'active':editor.show}"
+                @click="editor.show=!editor.show"><i
+            class="el-icon-rank"></i> 预览</span>
+        </div>
       </div>
       <textarea
         placeholder="请输入文档摘要"
@@ -38,7 +52,7 @@
         name=""
         class="input-content input-zy content-wrapper thin-scroll"></textarea>
       <textarea
-        placeholder="请输入文章内容"
+        placeholder="请输入文章内容,支持截图粘贴图片<code>CTRL+V</code>"
         v-paste-img="pasteImg"
         v-model="post.content"
         name=""
@@ -128,7 +142,7 @@
           desc: '',//摘要
           content: '',
           pics: [],
-          tags: ['Android开发', 'Jenkins'],
+          tags: [],
           version: '0.0.1',
         },
         newTag: {
@@ -180,6 +194,9 @@
         let pics = this.post.content.match(/\!\[.+\]\(.+\)/g);
         //交给后台解析吧
         let res = await Http.put(`post/${this.post._id}/publish`, this.post);
+        if (res.code !== Codes.FAIL) {
+          this.$notify.success('发布成功');
+        }
         this.publishing = false;
       },
       async remove() {
@@ -269,11 +286,11 @@
 
 <style scoped lang="scss">
   .post-create {
-    margin: 1rem 1rem;
     display: flex;
     flex-direction: row;
     position: fixed;
     width: 100%;
+    padding: 1rem .5rem;
     bottom: 0;
     top: 65px;
   }
@@ -281,7 +298,6 @@
   .draft-wrapper {
     width: 300px;
     background: #fff;
-    padding: 0 0 10px;
     overflow-y: auto;
     .title {
       font-size: 20px;
@@ -342,20 +358,35 @@
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    transition: .3s all;
     .content-wrapper {
       margin: 1rem 0;
       flex: 1 1 auto;
       flex-direction: column;
       overflow-y: auto;
     }
-    .input-title {
-      width: 100%;
-      line-height: 50px;
-      border: none;
-      font-size: 20px;
-      padding: 0 1rem;
+    .row-input {
       border-bottom: 1px solid $grey-200;
+      padding: 3px 1rem;
+      line-height: 50px;
+      flex: none;
+      display: block;
+      .input-wrapper {
+        display: block;
+      }
+      .input-title {
+        width: 100%;
+
+        border: none;
+        font-size: 20px;
+      }
+      .menu-wrapper {
+        span.active {
+          color: $blue-500;
+        }
+      }
     }
+
     .input-content {
       width: 100%;
       height: 100%;
@@ -415,7 +446,7 @@
 
   .review-wrapper {
     flex: 1;
-    margin: 0 1rem;
+    margin: 0 0 0 1rem;
     background: #fff;
     padding: 1rem;
     overflow-y: auto;
@@ -431,8 +462,13 @@
       color: $grey-500;
       margin: 1rem;
       white-space: pre-wrap;
+      width: 100%;
+      overflow: hidden;
+      line-height: 1.6;
+      word-wrap: break-word;
     }
     .markdown-body {
+      margin-top: 1rem;
       font-size: 16px;
     }
   }

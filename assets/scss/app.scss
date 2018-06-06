@@ -132,3 +132,15 @@ body::-webkit-scrollbar-thumb {
 body::-webkit-scrollbar {
   width: 7px;
 }
+
+.color-success {
+  color: $green-800;
+}
+
+.color-warn {
+  color: $yellow-800
+}
+
+.color-primary {
+  color: $blue-500;
+}
