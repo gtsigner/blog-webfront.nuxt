@@ -163,7 +163,7 @@
     }
     .page-content {
       flex: auto;
-      margin-right: 1rem;
+      margin: 0 1rem;
     }
   }
 </style>

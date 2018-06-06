@@ -63,6 +63,10 @@
   }
 </script>
 <style lang="scss">
+  body {
+    min-width: 680px;
+  }
+
   .nav-container {
     background: #fff;
   }

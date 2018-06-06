@@ -2,15 +2,20 @@
   <div class="post-item">
     <div class="post-item-wrapper d-flex">
       <div class="flex-fill post-content">
-        <div class="line-user">
-          <img class="avatar" :src="post.creator.avatar" alt="">
-          <span class="badge badge-danger mr-2 ml-2">{{post.creator.nickname||post.creator.username}}</span>
-          <span class="star">
+        <div class="line-user d-flex justify-content-between">
+          <div class="base-wrapper">
+            <img class="avatar" :src="post.creator.avatar" alt="">
+            <span class="badge badge-danger mr-2 ml-2">{{post.creator.nickname||post.creator.username}}</span>
+            <span class="star">
             <i class="el-icon-star-on"></i> {{post.counter.star}}
           </span>
-          <div class="tags ml-3">
-            <el-tag size="small mr-2" v-if="post.position">置顶</el-tag>
-            <el-tag size="small" class="el-tag mr-2" v-for="(t,i) in post.tags" :key="i">{{t}}</el-tag>
+            <div class="tags ml-3">
+              <el-tag size="small mr-2" v-if="post.position">置顶</el-tag>
+              <el-tag size="small" class="el-tag mr-2" v-for="(t,i) in post.tags" :key="i">{{t}}</el-tag>
+            </div>
+          </div>
+          <div class="right-action">
+            <span class="star" @click="star"><i class="el-icon-star-off"></i><small>Star</small></span>
           </div>
         </div>
         <div class="line-title">
@@ -37,6 +42,11 @@
     },
     data() {
       return {}
+    },
+    methods: {
+      async star(e) {
+        e.stopPropagation();
+      }
     }
   }
 </script>
@@ -60,6 +70,11 @@
       line-height: 30px;
       * {
         display: inline-block;
+      }
+      .right-action {
+        .star {
+          font-size: 20px;
+        }
       }
     }
     .line-title {
