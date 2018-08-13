@@ -16,7 +16,7 @@ app.use(
   })
 );
 
-let config = require("../nuxt.config.js");
+let config = require("./nuxt.config.js");
 config.dev = !(process.env.NODE_ENV === "production");
 const nuxt = new Nuxt(config);
 // Build only in dev mode
