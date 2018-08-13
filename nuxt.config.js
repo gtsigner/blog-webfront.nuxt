@@ -70,7 +70,7 @@ module.exports = {
       const sassResourcesLoader = {
         loader: "sass-resources-loader",
         options: {
-          resources: ["assets/scss/_variables.scss"]
+          resources: ["app/assets/scss/_variables.scss"]
         }
       };
       // 遍历nuxt定义的loader配置，向里面添加新的配置。
