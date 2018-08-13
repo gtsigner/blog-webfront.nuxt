@@ -15,7 +15,7 @@ Vue.filter('formatDate', (val) => {
 class Uploader {
   static upload(ev) {
     const data = ev.clipboardData;
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    const items = (ev.clipboardData || ev.originalEvent.clipboardData).items;
     let actions = [];//如果是多文件上传的话
     for (let index in items) {
       const item = items[index];
@@ -24,7 +24,6 @@ class Uploader {
         // const url = reader.readAsDataURL(blob);
         const formData = new FormData();
         formData.append('file', blob);
-        const base64 = event.target.result;
         //ajax上传图片
         return Upload.post(`upload/editor`, formData);
       }
