@@ -129,7 +129,6 @@ module.exports = {
         plugins: ["transform-decorators-legacy", "transform-class-properties"]
     },
     dev: process.env.NODE_ENV !== "production",
-    env: {},
     cache: {
         max: 1000,
         maxAge: 900000
