@@ -3,7 +3,7 @@ module.exports = {
     srcDir: "./app",
     transition: "fade",
     env: {
-        API_BASE: process.env.API_BASE || "https://blog.oeynet.com/api",
+        API_BASE: process.env.API_BASE || "https://blog.oeynet.com/api/v1",
         dev: false
     },
     router: {

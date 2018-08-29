@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: "front.fit.fitoneapp.com",
+            name: "blog.oeynet.com.client",
             script: "./app.js",
             env: {
                 NODE_ENV: "development",
