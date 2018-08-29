@@ -3,8 +3,7 @@ module.exports = {
     srcDir: "./app",
     transition: "fade",
     env: {
-        baseUrl: "http://0.0.0.0:3000",
-        apiURI: process.env.EGG_API_URI || "https://blog.oeynet.com:7001/api",
+        API_BASE: process.env.API_BASE || "https://blog.oeynet.com/api",
         dev: false
     },
     router: {
