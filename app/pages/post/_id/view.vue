@@ -81,7 +81,7 @@ export default {
   /*服务端渲染*/
   async asyncData({ params, redirect, $axios }) {
     const res = await $axios.get(`post/${params.id}/show`);
-    if (res.ok) {
+    if (!res.ok) {
       //如果未找到文章
       return redirect("/404");
     }
