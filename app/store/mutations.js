@@ -9,7 +9,7 @@ export default {
    * @param accessToken
    * @param authenticated
    */
-  [types.UPDATE_LOGIN](state, {user, accessToken, authenticated}) {
+  [types.UPDATE_LOGIN](state, { user, accessToken, authenticated }) {
     state.accessToken = accessToken;
     state.authenticated = authenticated;
     state.user = user;

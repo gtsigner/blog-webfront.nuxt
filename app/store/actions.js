@@ -1,21 +1,16 @@
 import * as types from './mutation-types'
-import {Http, Codes} from '../plugins/utils/api'
+import { Http, Codes } from '../plugins/utils/api'
 import Auth from '../plugins/utils/auth'
 
 export default {
-  async nuxtServerInit({commit}, {req, res}) {
-    let accessToken = req.cookies.access_token || null;
-    //初始化配置信息，初始化用户信息
-    res.cookie('access_token', accessToken);
-    Auth.setAccessToken(accessToken);
-    commit(types.SET_ACCESS_TOKEN, accessToken);
-    await this.dispatch('loadMyProfile');
+  async nuxtServerInit({ commit }, { req, res }) {
+    //  await this.dispatch('loadMyProfile');
   },
-  async loadBaseConfig({commit}) {
+  async loadBaseConfig({ commit }) {
     let configs = await Http.get('config/all');
   },
 
-  async loadMyProfile({commit}) {
+  async loadMyProfile({ commit }) {
     let res = await Http.get('my/profile');
     if (res.code === Codes.SUCCESS) {
       const user = res.data;
@@ -24,7 +19,7 @@ export default {
     }
   },
 
-  async login({commit}, user) {
+  async login({ commit }, user) {
     let res = await Http.post(`portal/login`, user);
     if (res.code === Codes.SUCCESS) {
       const ret = res.data;
@@ -36,7 +31,7 @@ export default {
     }
     return res;
   },
-  async register({commit}, user) {
+  async register({ commit }, user) {
     let res = await Http.post(`portal/register`, user);
     if (res.code === Codes.SUCCESS) {
       const ret = res.data;
@@ -53,7 +48,7 @@ export default {
    * @param commit
    * @returns {Promise<void>}
    */
-  async logout({commit}) {
+  async logout({ commit }) {
     Auth.setAccessToken(null);
     let res = await Http.post(`portal/logout`);
     commit(types.UPDATE_LOGIN, {
@@ -67,12 +62,12 @@ export default {
    * @param commit
    * @returns {Promise<void>}
    */
-  async loadCategories({commit}) {
+  async loadCategories({ commit }) {
     let games = await Http.get('games/all');
     commit(types.SET_GAMES, games);
     commit(types.SET_CURRENT_GAME, games[0]);
   },
-  async createBlog({commit}, newTeam) {
+  async createBlog({ commit }, newTeam) {
     let res = await Http.post('team/create', newTeam);
     //
     if (res.code === Codes.FAIL) {
