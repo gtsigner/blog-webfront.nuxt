@@ -1,11 +1,11 @@
 <template>
   <div class="view-container">
     <div class="nav-container">
-      <div class="nav-wrapper ">
+      <div class="nav-wrapper">
         <div class="container d-flex justify-content-between">
           <nav class="nav nav-bar oeygame-bar">
             <nuxt-link class="nav-logo" to="/">
-              <img src="" alt="">
+              <img src alt>
             </nuxt-link>
             <nuxt-link class="nav-link" :to="{name:'index'}">首页</nuxt-link>
             <nuxt-link class="nav-link" :to="{name:'user'}">用户</nuxt-link>
@@ -22,13 +22,17 @@
             <div class="nav-link cursor-pointer avatar-box">
               <el-dropdown trigger="click">
                 <div class="el-dropdown-link avatar-link">
-                  <img :src="user.avatar" class="avatar" alt="">
+                  <img :src="user.avatar" class="avatar" alt>
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item><i class="el-icon-printer"> </i> 我的主页</el-dropdown-item>
-                  <el-dropdown-item><i class="el-icon-setting"> </i> 设置</el-dropdown-item>
+                  <el-dropdown-item>
+                    <i class="el-icon-printer"></i> 我的主页
+                  </el-dropdown-item>
+                  <el-dropdown-item>
+                    <i class="el-icon-setting"></i> 设置
+                  </el-dropdown-item>
                   <el-dropdown-item @click.native="logout">
-                    <i class="el-icon-location"> </i> 注销退出
+                    <i class="el-icon-location"></i> 注销退出
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -43,71 +47,69 @@
   </div>
 </template>
 <script>
-  export default {
-    created() {
-
+export default {
+  created() {},
+  computed: {
+    user() {
+      return this.$store.state.user || {};
     },
-    computed: {
-      user() {
-        return this.$store.state.user;
-      },
-      isAuth() {
-        return this.$store.state.authenticated;
-      }
-    },
-    methods: {
-      async logout() {
-        await this.$store.dispatch('logout');
-      }
+    isAuth() {
+      return this.$store.state.authenticated;
+    }
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch("logout");
     }
   }
+};
 </script>
 <style lang="scss">
-  body {
-    min-width: 680px;
-  }
+body {
+  min-width: 680px;
+}
 
-  .nav-container {
-    background: #fff;
-  }
+.nav-container {
+  background: #fff;
+}
 
-  .nav-wrapper {
-    position: sticky;
-    top: 0;
-    z-index: 501;
-    background: #fff;
-    line-height: 40px;
-    box-shadow: 0 2px 2px #eee;
+.nav-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 501;
+  background: #fff;
+  line-height: 40px;
+  box-shadow: 0 2px 2px #eee;
+}
 
-  }
-
-  .oeygame-bar {
-    .nav-link {
-      color: $grey-600;
-      font-size: 18px;
-      line-height: 50px;
-      &:hover, &.active {
-        color: $blue-500;
-      }
-    }
-    .nuxt-link-exact-active {
+.oeygame-bar {
+  .nav-link {
+    color: $grey-600;
+    font-size: 18px;
+    line-height: 50px;
+    &:hover,
+    &.active {
       color: $blue-500;
     }
   }
-
-  .user-bar {
-    .avatar-box {
-      line-height: 0;
-      padding: 10px 5px;
-      overflow: hidden;
-    }
-    .avatar-link {
-      line-height: 0;
-    }
-    .avatar {
-      height: 45px;
-      width: 45px;
-      border-radius: 50%;
-    }
+  .nuxt-link-exact-active {
+    color: $blue-500;
   }
+}
+
+.user-bar {
+  .avatar-box {
+    line-height: 0;
+    padding: 10px 5px;
+    overflow: hidden;
+  }
+  .avatar-link {
+    line-height: 0;
+  }
+  .avatar {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+  }
+}
 </style>

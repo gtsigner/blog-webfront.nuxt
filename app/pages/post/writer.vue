@@ -277,7 +277,12 @@ export default {
     async loadDrafts() {
       this.draftLoading = true;
       //获取草稿箱
-      let drafts = await this.$axios.get(`posts/drafts`);
+      let res = await this.$axios.get(`posts/drafts`);
+      this.draftLoading = false;
+      if (!res.ok) {
+        return;
+      }
+      const drafts = res.data;
       this.drafts = [...drafts];
       if (drafts.length > 0) {
         this.chooseDraft(drafts[0]);
@@ -286,7 +291,6 @@ export default {
         await this.createDrafts();
         this.loadDrafts();
       }
-      this.draftLoading = false;
     }
   },
   created() {

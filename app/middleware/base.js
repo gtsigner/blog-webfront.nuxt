@@ -6,7 +6,6 @@ export default async function (context) {
     const { store, req, res, route, redirect } = context;
     let accessToken = null;
     //传递Cookies到客户端
-    console.log("AccessToken:", store.state.accessToken);
     const isServer = process.server;
     if (isServer) {
         const accessToken = req.context.cookies.get('access_token');

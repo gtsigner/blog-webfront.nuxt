@@ -17,8 +17,7 @@ export default {
     async profile({ commit }) {
         let res = await this.$axios.get('my/profile');
         if (res.ok) {
-            const user = res.data;
-            commit(types.UPDATE_USER, user);
+            commit(types.UPDATE_USER, res.data);
             commit(types.UPDATE_AUTH, true);
         }
         return res;
@@ -36,11 +35,7 @@ export default {
         let res = await this.$axios.post(`portal/register`, user);
         if (res.ok) {
             const ret = res.data;
-            commit(types.UPDATE_LOGIN, {
-                user: ret.user,
-                accessToken: ret.accessToken,
-                authenticated: true
-            });
+            commit(types.UPDATE_LOGIN, { user: ret.user, accessToken: ret.accessToken, authenticated: true });
         }
         return res;
     },
@@ -50,16 +45,10 @@ export default {
      * @returns {Promise<void>}
      */
     async logout({ commit }) {
-        Auth.setAccessToken(null);
         let res = await this.$axios.post(`portal/logout`);
         if (res.ok) {
-
+            commit(types.UPDATE_LOGIN, { user: {}, accessToken: null, authenticated: false });
         }
-        commit(types.UPDATE_LOGIN, {
-            user: {},
-            accessToken: null,
-            authenticated: false
-        });
     },
     /**
      * 获取所有游戏信息
@@ -67,16 +56,14 @@ export default {
      * @returns {Promise<void>}
      */
     async loadCategories({ commit }) {
-        let games = await this.$axios.get('games/all');
+        let res = await this.$axios.get('games/all');
         if (res.ok) {
-
+            commit(types.SET_GAMES, res.data);
+            commit(types.SET_CURRENT_GAME, res.data[0]);
         }
-        commit(types.SET_GAMES, games);
-        commit(types.SET_CURRENT_GAME, games[0]);
     },
     async createBlog({ commit }, newTeam) {
         let res = await this.$axios.post('team/create', newTeam);
-        //
         if (res.code === Codes.FAIL) {
             //失败
         }
