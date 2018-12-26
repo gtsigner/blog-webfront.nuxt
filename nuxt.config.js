@@ -45,7 +45,7 @@ module.exports = {
         ],
         script: [
             { src: "//cdn.bootcss.com/lodash.js/4.17.10/lodash.min.js" },
-            { src: "//cdn.bootcss.com/axios/0.18.0/axios.min.js" }
+            //{ src: "//cdn.bootcss.com/axios/0.18.0/axios.min.js" }
         ]
     },
     /*
@@ -111,7 +111,7 @@ module.exports = {
             // })
             //new BundleAnalyzerPlugin()
         ],
-        vendor: ["axios", "lodash", "vue-markdown"],
+        vendor: ["lodash"],
         //配置loader options
         loaders: {
             less: {

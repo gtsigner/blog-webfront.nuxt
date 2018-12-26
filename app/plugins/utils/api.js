@@ -1,12 +1,10 @@
 import axios from "axios";
 import Auth from "./auth";
-import queryString from "querystring";
 
 let accessToken = "";
 const configs = {
     uri: process.env.API_BASE
 };
-console.log(process.env.API_BASE);
 const instance = axios.create({
     baseURL: process.env.API_BASE,
     timeout: 1500,
@@ -35,7 +33,7 @@ instance.interceptors.response.use(
     error => {
         if (!error.response) {
             //处理错误信息
-            return {code: Codes.SERVER_ERROR, message: "服务器错误"};
+            return { code: Codes.SERVER_ERROR, message: "服务器错误" };
         }
 
         return error.response.data; // 返回接口返回的错误信息
@@ -49,8 +47,7 @@ export const Codes = {
     SERVER_ERROR: 1005, //服务器错误
     NOT_AUTH: 1041 //未授权
 };
-export const Http = instance;
-export const QueryString = queryString;
+export const http = instance;
 
 const ApiPlugin = () => {
 };
@@ -67,6 +64,6 @@ export const Axios = axios;
 export const Upload = axios.create({
     baseURL: configs.uri,
     timeout: 1500,
-    headers: {"Content-Type": "multipart/form-data"},
+    headers: { "Content-Type": "multipart/form-data" },
     withCredentials: true
 });
