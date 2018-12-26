@@ -2,7 +2,7 @@ import * as types from './mutation-types'
 
 export default {
     //早于中间件之前，所以req一定存在
-    async nuxtServerInit({ commit }, { req, res }) {
+    async nuxtServerInit({ commit }, { req, res, redirect, route }) {
         //  await this.dispatch('loadMyProfile');
         const user = await this.dispatch('profile');
         if (user.ok && route.path === '/passport/login') {
