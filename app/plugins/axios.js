@@ -7,13 +7,7 @@ export default function ({ $axios, redirect, store, req }) {
 
 
     $axios.onRequest((config) => {
-        // $axios.setHeader('StoreDomain', 's1.local.me');
-        // $axios.setToken('123', 'Bearer');
-        const code = (store.state.store && store.state.store.id) || '';
         config.timeout = 5000;
-        config.headers['Store-Host'] = getStoreHost(req);
-        config.headers['Store-Token'] = code;
-        config.headers['Store-App-Id'] = code;
         if (store.state.accessToken) {
             config.headers['Authorization'] = 'Bearer ' + store.state.accessToken;
         }

@@ -1,36 +1,48 @@
-const express = require("express");
-const session = require("express-session");
-const cookieParser = require("cookie-parser");
-const {Nuxt, Builder} = require("nuxt");
+const Koa = require('koa');
+const consola = require('consola');
+const { Nuxt, Builder } = require('nuxt');
 
-const host = process.env.HOST || "0.0.0.0";
+const app = new Koa();
+const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 3000;
-const app = new express();
-app.use(cookieParser());
-app.use(
-    session({
-        secret: "keyboard cat",
-        resave: false,
-        saveUninitialized: true,
-        cookie: {secure: true}
+
+// Import and Set Nuxt.js options
+let config = require('./nuxt.config.js');
+config.dev = !(app.env === 'production');
+
+async function start() {
+    // Instantiate nuxt.js
+    const nuxt = new Nuxt(config);
+
+    // Build in development
+    if (config.dev) {
+        const builder = new Builder(nuxt);
+        await builder.build();
+    }
+
+    app.use(ctx => {
+        ctx.status = 200;// koa defaults to 404 when it sees that status is unset
+        ctx.req.context = ctx;
+        return new Promise((resolve, reject) => {
+            ctx.res.on('close', resolve);
+            ctx.res.on('finish', resolve);
+            nuxt.render(ctx.req, ctx.res, promise => {
+                // nuxt.render passes a rejected promise into callback on error.
+                promise.then(resolve).catch(reject)
+            })
+        })
+    });
+
+    app.on('error', err => {
+        console.log(err);
+
+        // consola.error(err);
+    });
+    app.listen(port, host);
+    consola.ready({
+        message: `Server listening on http://${host}:${port}`,
+        badge: true
     })
-);
-
-let config = require("./nuxt.config.js");
-config.dev = !(process.env.NODE_ENV === "production");
-const nuxt = new Nuxt(config);
-// Build only in dev mode
-if (config.dev) {
-    const builder = new Builder(nuxt);
-    builder.build();
-    process.env.dev = true;
-} else {
-    process.env.dev = false;
 }
-//#region APP Start
-app.use(nuxt.render);
 
-// Listen the server
-app.listen(port, host, () => {
-    console.log("Server listening on " + host + ":" + port); // eslint-disable-line no-console
-});
+start().then(() => { });

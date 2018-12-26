@@ -1,20 +1,27 @@
 import * as types from './mutation-types'
 
 export default {
+    //早于中间件之前，所以req一定存在
     async nuxtServerInit({ commit }, { req, res }) {
         //  await this.dispatch('loadMyProfile');
+        const user = await this.dispatch('profile');
+        if (user.ok && route.path === '/passport/login') {
+            //如果用户已经登录,再访问登录页面直接跳转到首页
+            redirect('/');
+        }
     },
     async loadBaseConfig({ commit }) {
         let configs = await this.$axios.get('config/all');
     },
 
-    async loadMyProfile({ commit }) {
+    async profile({ commit }) {
         let res = await this.$axios.get('my/profile');
         if (res.ok) {
             const user = res.data;
             commit(types.UPDATE_USER, user);
             commit(types.UPDATE_AUTH, true);
         }
+        return res;
     },
 
     async login({ commit }, user) {

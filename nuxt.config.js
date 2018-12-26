@@ -5,11 +5,10 @@ module.exports = {
     transition: "fade",
     env: {
         API_BASE: process.env.API_BASE || "https://blog.oeynet.com/api/v1",
-        dev: false
+        dev: process.env.NODE_ENV !== "production",
     },
     axios: {
         // See https://github.com/nuxt-community/axios-module#options
-        //baseURL: 'http://card.getapi.cc/api.php/',
         baseURL: process.env.API_BASE || "https://blog.oeynet.com/api/v1",
         timeout: 5000,
         loadingBar: false,
