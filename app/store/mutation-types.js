@@ -13,3 +13,6 @@ export const SET_CONFIGS = 'SET_CONFIGS';
 export const SET_CURRENT_GAME = 'SET_CURRENT_GAME';
 
 export const SET_ACCESS_TOKEN = 'SET_ACCESS_TOKEN';
+
+
+export const SET_AUTH_FORM = 'SET_AUTH_FORM';//设置全局显示的全局表单
