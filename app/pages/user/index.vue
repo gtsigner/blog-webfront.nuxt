@@ -48,7 +48,7 @@ export default {
       let res = await this.$axios.get(`user/list?p=${this.page.current}`);
       this.isLoading = false;
       if (res.ok) {
-        this.users = this.users.concat(users);
+        this.users = this.users.concat(res.data);
       } else {
       }
     }
